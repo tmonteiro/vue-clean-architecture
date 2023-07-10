@@ -16,7 +16,7 @@ export default class TodoList extends Observable {
   addTodo(title: string, completed: boolean = false) {
     if (this.todos.some((todo) => todo.title === title)) return;
     const todo = new Todo(title, completed);
-    this.todos.push(todo);
+    this.todos.unshift(todo);
     this.notify('add-todo', todo);
   }
 
