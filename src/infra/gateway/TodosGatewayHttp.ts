@@ -13,12 +13,10 @@ export default class TodosGatewayHttp implements TodosGateway {
     return todos;
   }
 
-  addTodo(): Promise<Todo> {
-    throw new Error('Method not implemented.');
-  }
-
-  deleteTodo(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async addTodo(newTodo: Todo): Promise<Todo> {
+    const body  ={ ...newTodo, userId: 1 };
+    const todo = await this.httpClient.post(`${this.baseUrl}/todos`, body);
+    return todo;
   }
 
 }
