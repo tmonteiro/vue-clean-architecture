@@ -9,7 +9,7 @@
   </h1>
   <p class="total">Total: {{ todoList.getTotal() }}</p>
   <p class="completed">Completed: {{ todoList.getCompleted() }}%</p>
-  <div>
+  <div class="new-todo-container">
     <input
       type="text"
       v-model="newTodo"
@@ -22,16 +22,15 @@
       Add new Todo
     </button>
   </div>
-  <ul v-for="todo in todoList.todos">
-    <li>
-      {{ todo.title }}
-      <span v-if="todo.completed">
-        completed
+  <ul>
+    <li v-for="todo in todoList.todos">
+      <span :class="{ 'todo-completed': todo.completed }">
+        {{ todo.title }}
       </span>
-      <button @click="todo.toggleCompleted()">
+      <button v-if="!todo.completed" @click="todo.toggleCompleted()">
         Toggle completed
       </button>
-      <button @click="todoList.deleteTodo(todo)">
+      <button v-if="todo.completed" @click="todoList.deleteTodo(todo)">
         Delete
       </button>
     </li>
@@ -39,4 +38,25 @@
 </template>
 
 <style scoped>
+  .new-todo-container {
+    gap: 10px;
+    display: flex;
+  }
+
+  ul {
+    padding-left: 0;
+    list-style-type: circle;
+    list-style-position: inside;
+  }
+
+  li::marker {
+    content: counter(list-item, decimal-leading-zero)'. ';
+  }
+
+  li button {
+    margin-inline: 5px;
+  }
+  .todo-completed {
+    text-decoration: line-through;
+  }
 </style>
